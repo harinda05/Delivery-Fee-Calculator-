@@ -41,4 +41,4 @@ jobs:
             cd ~/dir/gh_pipe
             docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/delivery-fee-service-api-docker:latest
             docker rm -f delivery-fee-service-container
-            run: docker run -d -p 8080:8080 --name delivery-fee-service-container ${{ secrets.DOCKER_HUB_USERNAME }}/delivery-fee-service-api-docker
+            docker run -d -p 8080:8080 --name delivery-fee-service-container ${{ secrets.DOCKER_HUB_USERNAME }}/delivery-fee-service-api-docker
