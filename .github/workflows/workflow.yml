@@ -1,0 +1,40 @@
+name: workflow
+
+on:
+  merge_group:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: [ubuntu/latest]
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
+      - name: Setup java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin' # See 'Supported distributions' for available options
+          java-version: '17'
+      - name: Build project
+        run: mvn clean install
+      - name: login to docker hub
+        run: docker login -u ${{secrets.DOCKER_HUB_USERNAME}} -p ${{secrets.DOCKER_HUB_PASSWORD}}
+      - name: build docker image
+        run: docker build -t delivery-fee-service-api .
+      - name: publish to docker hub
+        run: docker push ${{secrets.DOCKER_HUB_USERNAME}}/delivery-fee-service-api-docker:latest
+  deploy:
+    needs: build
+    runs-on: [ubuntu/latest]
+    steps:
+      - name: Executing remote ssh commands using ssh key
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST_DNS }} # ssh host
+          username: ${{ secrets.HOST_USERNAME }} # username
+          key: ${{ secrets.HOST_SSH_KEY }} # pvt key
+          script: |
+            cd ~/dir/gh_pipe
+            docker pull ${{secrets.DOCKER_HUB_USERNAME}}/delivery-fee-service-api-docker:latest
+            docker rm -f delivery-fee-service-container
+            run: docker run -d -p 8080:8080 --name delivery-fee-service-container ${{secrets.DOCKER_HUB_USERNAME}}/delivery-fee-service-api-docker
