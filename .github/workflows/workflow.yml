@@ -22,11 +22,11 @@ jobs:
       - name: Build project
         run: gradle build --stacktrace
       - name: login to docker hub
-        run: docker login -u ${{secrets.DOCKER_HUB_USERNAME}} -p ${{secrets.DOCKER_HUB_PASSWORD}}
+        run: docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }}
       - name: build docker image
         run: docker build -t delivery-fee-service-api .
       - name: publish to docker hub
-        run: docker push ${{secrets.DOCKER_HUB_USERNAME}}/delivery-fee-service-api-docker:latest
+        run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/delivery-fee-service-api-docker:latest
   deploy:
     needs: build
     runs-on: [ubuntu-latest]
@@ -39,6 +39,6 @@ jobs:
           key: ${{ secrets.HOST_SSH_KEY }} # pvt key
           script: |
             cd ~/dir/gh_pipe
-            docker pull ${{secrets.DOCKER_HUB_USERNAME}}/delivery-fee-service-api-docker:latest
+            docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/delivery-fee-service-api-docker:latest
             docker rm -f delivery-fee-service-container
-            run: docker run -d -p 8080:8080 --name delivery-fee-service-container ${{secrets.DOCKER_HUB_USERNAME}}/delivery-fee-service-api-docker
+            run: docker run -d -p 8080:8080 --name delivery-fee-service-container ${{ secrets.DOCKER_HUB_USERNAME }}/delivery-fee-service-api-docker
