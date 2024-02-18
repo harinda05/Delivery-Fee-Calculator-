@@ -24,7 +24,7 @@ jobs:
       - name: login to docker hub
         run: docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }}
       - name: build docker image
-        run: docker build -t delivery-fee-service-api-docker .
+        run: docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/delivery-fee-service-api-docker .
       - name: publish to docker hub
         run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/delivery-fee-service-api-docker:latest
   deploy:
