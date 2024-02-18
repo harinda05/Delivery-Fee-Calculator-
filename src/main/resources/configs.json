@@ -1,0 +1,16 @@
+{
+  "maxFee": 1500,
+  "freeDeliveryEligibleCartValue": 20000,
+  "minCartValue": 1000,
+  "noOfItemsBeforeSurcharge": 4,
+  "surchargeForExceedingNoOfItems": 50,
+  "maxNoOfItemsBeforeBulkFee": 12,
+  "extraBulkFee": 120,
+  "standardFeeForFirstKiloMeter": 200,
+  "additionalDistanceIncrement": 500,
+  "feePerAdditionalDistanceIncrement": 100,
+  "rushDayOfWeek": 5,
+  "rushHourStartTime": "14:59:59",
+  "rushHourEndTime": "19:00:01",
+  "rushHourFeeMultiplier": 1.2
+}
