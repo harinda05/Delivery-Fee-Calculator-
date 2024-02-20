@@ -34,7 +34,7 @@ Using curl:
  curl -X POST "http://localhost:8080/api/fees/delivery-fee" -H "Content-Type: application/json" -d '{"cart_value": 1000, "delivery_distance": 1000, "number_of_iems": 4, "time": "2024-01-27T15:00:00Z"}'
 ```
 
-### Business Logic
+### Business Logics
 
 The delivery fee can never be more than 15€, including possible surcharges.
 
