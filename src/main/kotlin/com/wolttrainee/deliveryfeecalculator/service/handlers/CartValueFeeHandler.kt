@@ -9,11 +9,12 @@ class CartValueFeeHandler(configReader: ExternalConfigReaderInterface) : FeeHand
 
     override fun calculateFee(deliveryFeeRequestModel: DeliveryFeeRequestModel, currentFee: Int): Int {
         var localFee = currentFee
+        val cartValue: Int = deliveryFeeRequestModel.cart_value.getValue()
         val minCartValue = configReader.getByKey(MINIMUM_CART_VALUE).toInt()
-        if (deliveryFeeRequestModel.cart_value >= this.configReader.getByKey(FREE_DELIVERY_ELIGIBLE_CART_VALUE).toInt())
+        if ( cartValue >= this.configReader.getByKey(FREE_DELIVERY_ELIGIBLE_CART_VALUE).toInt())
             return 0
-        else if (deliveryFeeRequestModel.cart_value < minCartValue)
-            localFee = currentFee + (minCartValue - deliveryFeeRequestModel.cart_value)
+        else if (cartValue < minCartValue)
+            localFee = currentFee + (minCartValue - cartValue)
 
         return if(exceedsMaxFeeConstraint(localFee)){
             maxFeeConstraint
